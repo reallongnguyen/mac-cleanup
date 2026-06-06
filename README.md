@@ -1,10 +1,11 @@
 # mac-cleanup
 
-A **Claude Code skill** that frees up disk space on macOS — *safely*. It
-investigates what's actually eating your storage, explains the "System Data"
-mystery, drives the [`mo` (Mole)](https://github.com/tw93/Mole) CLI for quick
-wins, and never deletes anything irreplaceable (git history, databases, Docker
-volumes) without asking first.
+**Free up disk space on your Mac — without deleting anything you can't get back.**
+
+Run out of disk on your Mac? This **Claude Code skill** finds what's *actually*
+eating your storage (spoiler: rarely the OS), frees it with the
+[`mo` (Mole)](https://github.com/tw93/Mole) CLI, and never deletes anything
+irreplaceable — git history, databases, Docker volumes — without asking first.
 
 The core idea: sort every large thing into **safe** (regenerable — caches,
 build artifacts, downloaded models) or **real data** (exists nowhere else —
