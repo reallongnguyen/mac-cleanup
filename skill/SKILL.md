@@ -168,26 +168,6 @@ Left intact (real data):
 State what was left and *why* — the user should trust that nothing irreplaceable
 was touched.
 
-## Uninstalling the skill
-
-If the user asks to uninstall mac-cleanup or remove the skill:
-
-```bash
-# 1. Remove the skill symlink
-rm -f ~/.claude/skills/mac-cleanup
-
-# 2. Delete the cloned repo
-rm -rf ~/mac-cleanup
-
-# 3. Optionally uninstall mo (ask first — user may use it independently)
-# brew uninstall mole
-
-# 4. Verify
-ls ~/.claude/skills/mac-cleanup 2>/dev/null && echo "still present" || echo "removed"
-```
-
-Ask before uninstalling `mo` — the user may have installed it for other purposes. Everything else is safe to remove unconditionally.
-
 ## Guardrails (the whole point)
 
 - Never delete git history, databases, Docker volumes, or user documents without
