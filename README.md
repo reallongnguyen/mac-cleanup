@@ -20,15 +20,41 @@ Paste this into **Claude Code**:
 Set up the mac-cleanup skill from https://github.com/reallongnguyen/mac-cleanup — follow its README.
 ```
 
-The agent reads the repo and runs `install.sh` — installing `mo` via Homebrew
-and linking the skill into `~/.claude/skills/`.
+The agent reads this README and follows the setup instructions below — installing `mo` via Homebrew and linking the skill into `~/.claude/skills/`.
+
+### Claude Code: setup instructions
+
+If you are Claude Code reading this README to set up the skill, follow these steps exactly:
+
+1. **Install `mo`** — check if it's already installed first:
+   ```sh
+   command -v mo && mo --version || brew install mole
+   ```
+2. **Clone the repo** (skip if already cloned):
+   ```sh
+   git clone https://github.com/reallongnguyen/mac-cleanup.git ~/mac-cleanup
+   ```
+3. **Link the skill**:
+   ```sh
+   mkdir -p ~/.claude/skills
+   ln -sfn ~/mac-cleanup/skill ~/.claude/skills/mac-cleanup
+   chmod +x ~/mac-cleanup/skill/scripts/*.sh
+   ```
+4. **Verify**:
+   ```sh
+   mo --version && ls ~/.claude/skills/mac-cleanup
+   ```
+
+That's it — the skill is active. Tell the user they can now say things like _"my disk is almost full, help me clean it up"_ in Claude Code.
 
 ## Prefer to run it yourself?
 
 ```sh
-git clone https://github.com/reallongnguyen/mac-cleanup.git
-cd mac-cleanup
-./install.sh
+git clone https://github.com/reallongnguyen/mac-cleanup.git ~/mac-cleanup
+command -v mo || brew install mole
+mkdir -p ~/.claude/skills
+ln -sfn ~/mac-cleanup/skill ~/.claude/skills/mac-cleanup
+chmod +x ~/mac-cleanup/skill/scripts/*.sh
 ```
 
 This installs Mole (if missing) and symlinks `skill/` to
@@ -75,7 +101,6 @@ bash skill/scripts/scan.sh
 |------|---------|
 | `skill/SKILL.md` | The skill: methodology, `mo` usage, safe/real-data guardrails. |
 | `skill/scripts/scan.sh` | Read-only disk report — top consumers + known macOS space sinks. Deletes nothing. |
-| `install.sh` | Installs `mo` and links the skill into `~/.claude/skills/`. |
 
 ## Safety
 
