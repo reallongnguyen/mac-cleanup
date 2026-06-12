@@ -33,7 +33,7 @@ space is reversible (re-download, rebuild); deleting someone's only copy is not.
 
 ## Tooling: `mo` (Mole) + manual investigation
 
-[`mo`](https://github.com/tw93/Mole) is installed (`brew install tw93/tap/mole`).
+[`mo`](https://github.com/tw93/Mole) is installed (`brew install mole`).
 It's great for fast, whitelisted, safe cache cleanup — but it's an interactive
 TUI for its deeper commands, which an agent can't drive. So use a **hybrid**:
 
@@ -100,11 +100,20 @@ These are the usual suspects, in rough order of how often they're the culprit.
 
 ### 5. Workspace repos — artifacts vs history
 
-Source trees accumulate huge regenerable cruft. Reclaim it carefully:
+Source trees accumulate huge regenerable cruft. `mo purge` is the preferred
+way to clean them, but its default scan paths **don't include custom workspace
+folders** (e.g. `~/workspace`). Ask the user where their projects live, then
+pass that path explicitly:
 
 ```bash
-# SAFE — regenerable. (du over-counts pnpm node_modules because they hardlink
-# into ~/Library/pnpm, so real freed space may be less than du reports.)
+mo purge --paths ~/workspace        # or wherever the user keeps repos
+```
+
+If `mo purge` isn't available or the user wants finer control, fall back to
+`find` (SAFE — regenerable; note that `du` over-counts pnpm node_modules
+because they hardlink into `~/Library/pnpm`, so real freed space may be less):
+
+```bash
 find ~/workspace -type d -name node_modules -prune -exec rm -rf {} +
 find ~/workspace \( -type d \( -name dist -o -name build -o -name target \
   -o -name .next -o -name .venv -o -name __pycache__ \) \) -prune -exec rm -rf {} +
@@ -115,9 +124,6 @@ find ~/workspace \( -type d \( -name dist -o -name build -o -name target \
 ```bash
 git -C <repo> gc --aggressive --prune=now   # compacts, loses nothing
 ```
-
-`mo purge` also clears build artifacts, but its default scan paths don't include
-`~/workspace` — pass `mo purge --paths` to add it, or use the `find` above.
 
 ### 6. Before deleting real data — always confirm, per item
 
