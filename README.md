@@ -95,6 +95,49 @@ bash skill/scripts/scan.sh
    never auto-deleted.
 7. **Report** — honest before/after `df` numbers and what was left, and why.
 
+## Uninstall
+
+### With your coding agent
+
+Paste this into **Claude Code**:
+
+```text
+Uninstall the mac-cleanup skill — follow its README uninstall instructions.
+```
+
+### Claude Code: uninstall instructions
+
+If you are Claude Code reading this README to uninstall the skill, follow these steps exactly:
+
+1. **Remove the skill symlink**:
+   ```sh
+   rm -f ~/.claude/skills/mac-cleanup
+   ```
+2. **Delete the cloned repo**:
+   ```sh
+   rm -rf ~/mac-cleanup
+   ```
+3. **Optionally uninstall `mo`** (skip if you use it for other things):
+   ```sh
+   brew uninstall mole
+   ```
+4. **Verify**:
+   ```sh
+   ls ~/.claude/skills/mac-cleanup 2>/dev/null && echo "still present" || echo "removed"
+   ```
+
+Tell the user the skill has been removed and Claude Code will no longer trigger mac-cleanup behavior.
+
+### Prefer to run it yourself?
+
+```sh
+rm -f ~/.claude/skills/mac-cleanup
+rm -rf ~/mac-cleanup
+# optionally: brew uninstall mole
+```
+
+---
+
 ## What's in the repo
 
 | Path | Purpose |
